@@ -1,0 +1,27 @@
+{
+  "name": "centersales",
+  "version": "1.0.0",
+  "description": "Centerware and salesforce integration",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "orlando.trujillo",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "faye": "^1.2.4",
+    "jsforce": "^1.8.0",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4",
+    "socket.io-emitter": "^3.1.1"
+  },
+  "devDependencies": {
+    "jquery": "^3.2.1",
+    "modernizr": "^3.5.0",
+    "pug": "^2.0.0-rc.4"
+  }
+}

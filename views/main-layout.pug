@@ -1,0 +1,57 @@
+doctype html
+html.no-js(lang="")
+    head
+        meta(charset="utf-8")
+        meta(http-equiv="x-ua-compatible" content="ie=edge")
+        title Centerware Integration
+        meta(name="description" content="")
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+
+        link(rel="apple-touch-icon" href="apple-touch-icon.png")
+        link(rel="stylesheet" href="css/style.css")
+        script(src="vendor/FlashVersion.js")
+        script(src="vendor/modernizr-custom.js")
+    body
+        block content
+        //
+            [if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]
+        // Add your site or application content here
+        script.
+            AC_FL_RunContent(
+                'codebase', 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0',
+                'width', '510',
+                'height', '45',
+                'src', 'JavaScriptPackageRemote',
+                'quality', 'best',
+                'pluginspage', 'http://www.adobe.com/go/getflashplayer',
+                'align', 'middle',
+                'play', 'true',
+                'loop', 'true',
+                'scale', 'showall',
+                'wmode', 'opaque',
+                'devicefont', 'false',
+                'id', 'JavaScriptPackageRemote',
+                'bgcolor', '#ffffff',
+                'name', 'JavaScriptPackageRemote',
+                'menu', 'true',
+                'allowFullScreen', 'false',
+                'allowScriptAccess','sameDomain',
+                'movie', 'JavaScriptPackageRemote',
+                'salign', ''
+            );
+        noscript
+            object#JavaScriptPackageRemote(classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000", codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0", width="510", height="45", align="middle")
+                param(name="allowScriptAccess", value="always")
+                param(name="allowFullScreen", value="false")
+                param(name="movie", value="JavaScriptPackageRemote.swf")
+                param(name="quality", value="best")
+                param(name="wmode", value="opaque")
+                param(name="bgcolor", value="#ffffff")
+                embed(src="vendor/JavaScriptPackageRemote.swf", quality="best", wmode="opaque", bgcolor="#ffffff", width="510", height="45", name="JavaScriptPackageRemote", align="middle", allowscriptaccess="always", allowfullscreen="false", type="application/x-shockwave-flash", pluginspage="http://www.adobe.com/go/getflashplayer")
+        script(src='vendor/jquery.min.js')
+        script(src='/socket.io/socket.io.js')
+        script(src="js/main.js")
+        script(src="js/centerware.controller.js")
+        script(src="js/eventslistener.js")
