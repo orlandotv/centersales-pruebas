@@ -3,13 +3,12 @@ const jsforce = require('jsforce');
 let clients = require('../handlers/clients.handler');
 
 const salesforceController = {
-    subscribePlatformEvents: (io) => {
-        const client = new faye.Client(req.session.instanceUrl + '/cometd/40.0/');
-        client.setHeader('Authorization', 'OAuth ' + req.session.accessToken);
+    subscribePlatformEvents: (io, conn) => {
+        const client = new faye.Client(conn.instanceUrl + '/cometd/40.0/');
+        client.setHeader('Authorization', 'OAuth ' + conn.accessToken);
         client.subscribe('/event/Info_llamada__e', (data) => {
             eventsHandler(io, data);
         });
-        next();
     },
     //Example: WIll be removed
     pushEvent: (req, res, next) => {
@@ -39,14 +38,18 @@ function eventsHandler(io, data) {
             case '0': {
                 console.log(data.event.replayId);
                 console.log(socket.id);
-                socket.emit('client-logout');
+                if(data.payload.Origen__c === 0) {
+                    socket.emit('client-logout');
+                }
                 break;
             }
             //Login
             case '1': {
                 console.log(data.event.replayId);
                 console.log(socket.id);
-                socket.emit('client-login', {user: data.payload.Usuario_Centerware__c, password: data.payload.Pass_Centerware__c });
+                if(data.payload.Origen__c === 0) {
+                    socket.emit('client-login', {user: data.payload.Usuario_Centerware__c, password: data.payload.Pass_Centerware__c });
+                }
                 break;
             }
             //Start Call

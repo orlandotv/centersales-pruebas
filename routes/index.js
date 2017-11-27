@@ -9,6 +9,4 @@ router.get('/oauth2/auth', authController.authLogin);
 
 router.get('/oauth2/callback', authController.authCallback);
 
-//router.get('/test', authController.checkSession, salesforceController.pushEvent);
-
 module.exports = router;

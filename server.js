@@ -8,10 +8,10 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
+let clients = require('./handlers/clients.handler');
 const errorHandlers = require('./handlers/error.handler');
 const socketHandler = require('./handlers/sockets.handler');
 const routes = require('./routes/index');
-const salesforceController = require('./controllers/salesforce.controller');
 const sessionMidleware = session({
 	secret: 'mySecret',
 	resave: false,
@@ -20,8 +20,21 @@ const sessionMidleware = session({
 		maxAge: 720 * 60 * 1000 //12 hours
 	}
 });
+
+//Server connection to salesforce
+const jsforce = require('jsforce');
+const config = require('./config/config');
+const conn = new jsforce.Connection({
+    oauth2: {
+        loginUrl : config.logInUrlDev,
+        clientId : config.clientId,
+        clientSecret : config.clientSecret,
+        redirectUri : config.redirectUri
+    }
+});
+
+//Bayeux settings
 const bayeux = new faye.NodeAdapter({mount: '/faye', timeout: 45});
-let clients = require('./handlers/clients.handler');
 
 bayeux.attach(server);
 bayeux.on('disconnect', function(clientId) {
@@ -64,5 +77,10 @@ app.set('port', (process.env.PORT || 8080));
 
 server.listen(app.get('port'), () => {
 	console.log(`Express running on port ${server.address().port}`);
-	salesforceController.subscribePlatformEvents(io);
+	conn.login(config.user, config.password, (err, userInfo) => {
+		if(err) {
+			console.log('Unable to subscribe to platform events');
+		}
+		require('./controllers/salesforce.controller').subscribePlatformEvents(io, conn);
+	});
 });

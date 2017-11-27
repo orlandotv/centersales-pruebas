@@ -7,14 +7,16 @@ const socketHandler = {
         const event = getEventObject(session);
         event.create({
             Id_Usuario_Log__c: session.userID,
-            Estatus__c: salesforceAPI.descripcionStatus.login
+            Estatus__c: salesforceAPI.descripcionStatus.login,
+            Origen__c: 1
         }, eventCallback);
     },
     onLogout:(socket, session) => {
         const event = getEventObject(session);
         event.create({
             Id_Usuario_Log__c: session.userID,
-            Estatus__c: salesforceAPI.descripcionStatus.logout
+            Estatus__c: salesforceAPI.descripcionStatus.logout,
+            Origen__c: 2
         }, eventCallback);
     }
 };
