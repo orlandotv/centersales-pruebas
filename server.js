@@ -69,6 +69,8 @@ io.on('connection', (socket) => {
 	socket.on('server-onLogin', socketHandler.onLogin.bind(null, socket, socket.request.session));
 
 	socket.on('server-onLogout', socketHandler.onLogout.bind(null, socket, socket.request.session));
+
+	socket.on('server-onAgentChangeStatus', socketHandler.onAgentChangeStatus.bind(null, socket, socket.request.session));
 });
 
 app.use(errorHandlers.developmentErrors);

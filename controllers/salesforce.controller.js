@@ -1,5 +1,6 @@
 const faye = require('faye');
 const jsforce = require('jsforce');
+const salesforceAPI = require('../config/salesforce.api.config');
 let clients = require('../handlers/clients.handler');
 
 const salesforceController = {
@@ -33,48 +34,52 @@ function eventsHandler(io, data) {
     const clientID = clients.get(data.payload.Id_Usuario_Log__c);
     if(clientID) {
         const socket = io.sockets.connected[clientID];
-        switch(data.payload.Estatus__c) {
+        switch(data.payload.Accion__c) {
             //Logout
-            case '0': {
-                console.log(data.event.replayId);
-                console.log(socket.id);
-                if(data.payload.Origen__c === 0) {
+            case salesforceAPI.descripcionAccion.logout: {
+                // console.log(data.event.replayId);
+                // console.log(socket.id);
+                if(data.payload.Origen__c === '0') {
                     socket.emit('client-logout');
                 }
                 break;
             }
             //Login
-            case '1': {
-                console.log(data.event.replayId);
-                console.log(socket.id);
-                if(data.payload.Origen__c === 0) {
+            case salesforceAPI.descripcionAccion.login: {
+                // console.log(data.event.replayId);
+                // console.log(socket.id);
+                if(data.payload.Origen__c === '0') {
                     socket.emit('client-login', {user: data.payload.Usuario_Centerware__c, password: data.payload.Pass_Centerware__c });
                 }
                 break;
             }
             //Start Call
-            case '2': {
+            case salesforceAPI.descripcionAccion.startCall: {
                 socket.emit('client-call', { });
                 break;
             }
             //Didnt pick call
-            case '3': {
+            case salesforceAPI.descripcionAccion.noPickUpCall: {
                 socket.emit('client-nopickupcall', { });
                 break;
             }
             //Pick call
-            case '4': {
+            case salesforceAPI.descripcionAccion.pickUpCall: {
                 socket.emit('client-pickcall', { });
                 break;
             }
             //End call
-            case '5': {
+            case salesforceAPI.descripcionAccion.endCall: {
                 socket.emit('client-endcall', { });
                 break;
             }
             //Score call
-            case '6': {
+            case salesforceAPI.descripcionAccion.scoreCall: {
                 socket.emit('client-scorecall', { });
+                break;
+            }
+            case salesforceAPI.descripcionAccion.changeStatus : {
+                socket.emit('client-changeStatus', { status: data.payload.Estatus__c });
                 break;
             }
             default: {
