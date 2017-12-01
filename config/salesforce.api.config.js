@@ -8,7 +8,8 @@ module.exports = {
     contactoID: 'Id_Contacto__c', //Texto(200)  
     usuarioLogID: 'Id_Usuario_Log__c', //Texto(200) 
     nombreCliente: 'Nombre_Cliente__c', //Texto(250)
-    telefono: 'Numero_Telefono__c', //Texto(200)
+    telefono: 'Numero_Telefono__c', //Texto(200),
+    callID: 'Id_call__c',
     origen: 'Origen__c', //0 Salesforce - 1 Centerware //Texto(100)  
     passwordCenterware: 'Pass_Centerware__c', //Texto(200)  
     usuarioCenterware: 'Usuario_Centerware__c', //Texto(250)
@@ -20,7 +21,8 @@ module.exports = {
         pickUpCall: '4',
         endCall: '5',
         scoreCall: '6',
-        changeStatus: '7'
+        changeStatus: '7',
+        wrongNumber: '8'
     },
     origen: {
         salesforce: '0',

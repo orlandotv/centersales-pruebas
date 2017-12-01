@@ -71,6 +71,17 @@ io.on('connection', (socket) => {
 	socket.on('server-onLogout', socketHandler.onLogout.bind(null, socket, socket.request.session));
 
 	socket.on('server-onAgentChangeStatus', socketHandler.onAgentChangeStatus.bind(null, socket, socket.request.session));
+
+	socket.on('server-wrongNumber', socketHandler.onWrongNumber.bind(null, socket, socket.request.session));
+
+	socket.on('server-onDialingNumber', socketHandler.onDialingNumber.bind(null, socket, socket.request.session));
+
+	socket.on('server-onDialResult', socketHandler.onDialResult.bind(null, socket, socket.request.session));
+
+	socket.on('server-onEndCall', socketHandler.onEndCall.bind(null, socket, socket.request.session));
+
+	socket.on('server-onDisposeApplied', socketHandler.onDisposeApplied.bind(null, socket, socket.request.session));
+
 });
 
 app.use(errorHandlers.developmentErrors);

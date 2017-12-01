@@ -55,31 +55,43 @@ function eventsHandler(io, data) {
             }
             //Start Call
             case salesforceAPI.descripcionAccion.startCall: {
-                socket.emit('client-call', { });
+                if(data.payload.Origen__c === '0') {
+                    socket.emit('client-makeCall', { number: data.payload.Numero_Telefono__c , campaignID: data.payload.Campana__c, clientName: data.payload.Nombre_Cliente__c, callKey: data.payload.Call_Key__c });
+                }
                 break;
             }
             //Didnt pick call
             case salesforceAPI.descripcionAccion.noPickUpCall: {
-                socket.emit('client-nopickupcall', { });
+                if(data.payload.Origen__c === '0') {
+                    socket.emit('client-noPickupCall', { });
+                }
                 break;
             }
             //Pick call
             case salesforceAPI.descripcionAccion.pickUpCall: {
-                socket.emit('client-pickcall', { });
+                if(data.payload.Origen__c === '0') {
+                    socket.emit('client-pickCall', { });
+                }
                 break;
             }
             //End call
             case salesforceAPI.descripcionAccion.endCall: {
-                socket.emit('client-endcall', { });
+                if(data.payload.Origen__c === '0') {
+                    socket.emit('client-endCall');
+                }
                 break;
             }
             //Score call
             case salesforceAPI.descripcionAccion.scoreCall: {
-                socket.emit('client-scorecall', { });
+                if(data.payload.Origen__c === '0') {
+                    socket.emit('client-scoreCall', { dispositionID: data.payload.Calificacion__c, callID: data.payload.Id_call__c });
+                }
                 break;
             }
-            case salesforceAPI.descripcionAccion.changeStatus : {
-                socket.emit('client-changeStatus', { status: data.payload.Estatus__c });
+            case salesforceAPI.descripcionAccion.changeStatus: {
+                if(data.payload.Origen__c === '0') {
+                    socket.emit('client-changeStatus', { status: data.payload.Estatus__c });
+                }
                 break;
             }
             default: {
