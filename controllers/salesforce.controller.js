@@ -1,5 +1,6 @@
 const faye = require('faye');
 const jsforce = require('jsforce');
+const salesforceAPI = require('../config/salesforce.api.config');
 let clients = require('../handlers/clients.handler');
 
 const salesforceController = {
@@ -33,48 +34,64 @@ function eventsHandler(io, data) {
     const clientID = clients.get(data.payload.Id_Usuario_Log__c);
     if(clientID) {
         const socket = io.sockets.connected[clientID];
-        switch(data.payload.Estatus__c) {
+        switch(data.payload.Accion__c) {
             //Logout
-            case '0': {
-                console.log(data.event.replayId);
-                console.log(socket.id);
-                if(data.payload.Origen__c === 0) {
+            case salesforceAPI.descripcionAccion.logout: {
+                // console.log(data.event.replayId);
+                // console.log(socket.id);
+                if(data.payload.Origen__c === '0') {
                     socket.emit('client-logout');
                 }
                 break;
             }
             //Login
-            case '1': {
-                console.log(data.event.replayId);
-                console.log(socket.id);
-                if(data.payload.Origen__c === 0) {
+            case salesforceAPI.descripcionAccion.login: {
+                // console.log(data.event.replayId);
+                // console.log(socket.id);
+                if(data.payload.Origen__c === '0') {
                     socket.emit('client-login', {user: data.payload.Usuario_Centerware__c, password: data.payload.Pass_Centerware__c });
                 }
                 break;
             }
             //Start Call
-            case '2': {
-                socket.emit('client-call', { });
+            case salesforceAPI.descripcionAccion.startCall: {
+                if(data.payload.Origen__c === '0') {
+                    socket.emit('client-makeCall', { number: data.payload.Numero_Telefono__c , campaignID: data.payload.Campana__c, clientName: data.payload.Nombre_Cliente__c, callKey: data.payload.Call_Key__c });
+                }
                 break;
             }
             //Didnt pick call
-            case '3': {
-                socket.emit('client-nopickupcall', { });
+            case salesforceAPI.descripcionAccion.noPickUpCall: {
+                if(data.payload.Origen__c === '0') {
+                    socket.emit('client-noPickupCall', { });
+                }
                 break;
             }
             //Pick call
-            case '4': {
-                socket.emit('client-pickcall', { });
+            case salesforceAPI.descripcionAccion.pickUpCall: {
+                if(data.payload.Origen__c === '0') {
+                    socket.emit('client-pickCall', { });
+                }
                 break;
             }
             //End call
-            case '5': {
-                socket.emit('client-endcall', { });
+            case salesforceAPI.descripcionAccion.endCall: {
+                if(data.payload.Origen__c === '0') {
+                    socket.emit('client-endCall');
+                }
                 break;
             }
             //Score call
-            case '6': {
-                socket.emit('client-scorecall', { });
+            case salesforceAPI.descripcionAccion.scoreCall: {
+                if(data.payload.Origen__c === '0') {
+                    socket.emit('client-scoreCall', { dispositionID: data.payload.Calificacion__c, callID: data.payload.Id_call__c });
+                }
+                break;
+            }
+            case salesforceAPI.descripcionAccion.changeStatus: {
+                if(data.payload.Origen__c === '0') {
+                    socket.emit('client-changeStatus', { status: data.payload.Estatus__c });
+                }
                 break;
             }
             default: {
