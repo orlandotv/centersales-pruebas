@@ -4,6 +4,6 @@ module.exports = {
     redirectUri : 'http://localhost:8080/oauth2/callback',
     logInUrlDev: 'https://test.salesforce.com',
     logInUrlProd: 'https://login.salesforce.com',
-    user: 'adminblein@sorteostec.dev.sorteoback',
-    password: 'bcloud02'
+    user: 'adiez@sorteostec.dev.sorteoback',
+    password: 'bcloud02$'
 }
