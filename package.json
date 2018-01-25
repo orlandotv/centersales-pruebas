@@ -19,7 +19,6 @@
     "socket.io-client": "^2.0.4",
     "socket.io-emitter": "^3.1.1",
     "pug": "^2.0.0-rc.4"
-
   },
   "devDependencies": {
     "jquery": "^3.2.1",
